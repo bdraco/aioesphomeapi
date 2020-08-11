@@ -1,5 +1,6 @@
 import asyncio
 import socket
+import logging
 from typing import Optional, Tuple, Any
 
 # pylint: disable=cyclic-import
@@ -57,5 +58,6 @@ async def resolve_ip_address(eventloop: asyncio.events.AbstractEventLoop,
         try:
             return await eventloop.run_in_executor(None, resolve_host, host), port
         except APIConnectionError:
+            logging.exception("API ERROR")
             pass
     return await resolve_ip_address_getaddrinfo(eventloop, host, port)
